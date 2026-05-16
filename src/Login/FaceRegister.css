@@ -1,0 +1,307 @@
+/* src/Login/FaceRegister.css */
+.face-register-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  /* 添加以下隐藏滚动条的属性 */
+  -ms-overflow-style: none; /* IE 和 Edge */
+  scrollbar-width: none; /* Firefox */
+  max-height: 100vh;
+  overflow-y: auto;
+}
+
+.face-register-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.face-register-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  width: 100%;
+  max-width: 600px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.face-register-title {
+  text-align: center;
+  color: #333;
+  margin-bottom: 30px;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.face-register-subtitle {
+  text-align: center;
+  color: #666;
+  margin-bottom: 30px;
+  font-size: 16px;
+}
+
+.current-user-info {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 15px 20px;
+  margin-bottom: 25px;
+  border: 1px solid #e9ecef;
+}
+
+.current-user-label {
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 5px;
+}
+
+.current-user-value {
+  color: #007bff;
+  font-weight: 500;
+}
+
+.video-section {
+  margin-bottom: 30px;
+}
+
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.video-feed {
+  width: 100%;
+  display: block;
+  background: #000;
+}
+
+.overlay-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.status-message {
+  text-align: center;
+  padding: 15px;
+  margin: 20px 0;
+  border-radius: 10px;
+  background: #e3f2fd;
+  color: #1976d2;
+  border: 1px solid #bbdefb;
+  font-weight: 500;
+}
+
+.status-message.success {
+  background: #e8f5e9;
+  color: #388e3c;
+  border-color: #c8e6c9;
+}
+
+.status-message.error {
+  background: #ffebee;
+  color: #d32f2f;
+  border-color: #ffcdd2;
+}
+
+.status-message.processing {
+  background: #fff3e0;
+  color: #f57c00;
+  border-color: #ffe0b2;
+}
+
+.controls-section {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #0056b3, #004085);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background: linear-gradient(135deg, #28a745, #1e7e34);
+  color: white;
+  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #1e7e34, #155724);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+}
+
+.btn-secondary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-back {
+  background: linear-gradient(135deg, #6c757d, #495057);
+  color: white;
+  box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+  padding: 10px 20px;
+  min-width: auto;
+}
+
+.btn-back:hover:not(:disabled) {
+  background: linear-gradient(135deg, #495057, #343a40);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(108, 117, 125, 0.4);
+}
+
+.navigation-section {
+  text-align: center;
+  border-top: 1px solid #e9ecef;
+  padding-top: 25px;
+}
+
+.instructions {
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 25px;
+}
+
+.instructions h3 {
+  color: #856404;
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.instructions ul {
+  text-align: left;
+  padding-left: 20px;
+  margin: 0;
+  color: #856404;
+}
+
+.instructions li {
+  margin-bottom: 8px;
+}
+
+.instructions li:last-child {
+  margin-bottom: 0;
+}
+
+.loading-spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.face-detected {
+  border: 3px solid #28a745;
+  box-shadow: 0 0 20px rgba(40, 167, 69, 0.5);
+}
+
+.face-not-detected {
+  border: 3px solid #dc3545;
+}
+
+/* 如果希望整个页面也隐藏滚动条 */
+body {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .face-register-card {
+    padding: 25px;
+    margin: 10px;
+  }
+
+  .face-register-title {
+    font-size: 24px;
+  }
+
+  .controls-section {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .btn {
+    width: 100%;
+    min-width: auto;
+  }
+
+  .video-wrapper {
+    border-radius: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .face-register-card {
+    padding: 20px;
+  }
+
+  .face-register-title {
+    font-size: 22px;
+  }
+
+  .current-user-info {
+    padding: 12px 15px;
+  }
+}

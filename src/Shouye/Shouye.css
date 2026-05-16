@@ -1,0 +1,991 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  background-color: #0d1321;
+  overflow: hidden;
+}
+
+#root {
+  height: 100%;
+}
+
+.shouye-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  min-height: 100%;
+  max-height: 100vh;
+}
+
+.shouye-header {
+  background: linear-gradient(135deg, #0d1321 0%, #1b263b 100%);
+  color: #e0e0e0;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.shouye-header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  position: relative;
+}
+
+.username {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.user-avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  transition: all 0.3s ease;
+}
+
+.user-avatar:hover {
+  transform: scale(1.05);
+  border-color: white;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.user-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.shouye-content {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.shouye-sidebar {
+  width: 250px;
+  background: #1d2d44;
+  padding: 1.5rem 0;
+  box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+.shouye-sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
+
+.shouye-sidebar li {
+  padding: 1.2rem 2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #e0e0e0;
+  border-left: 4px solid transparent;
+}
+
+.shouye-sidebar li:hover {
+  background-color: #253755;
+  color: #64b5f6;
+  border-left: 4px solid #64b5f6;
+}
+
+.shouye-sidebar li.active {
+  background-color: #253755;
+  color: #64b5f6;
+  border-left: 4px solid #64b5f6;
+}
+
+.shouye-main {
+  flex: 1;
+  padding: 0;
+  overflow-y: auto;
+  background-color: #0d1321;
+}
+
+.join-meeting, .schedule-meeting, .create-meeting {
+  background: #1d2d44;
+  border-radius: 0;
+  padding: 2rem;
+  box-shadow: none;
+  max-width: none;
+  margin: 0;
+  min-height: 100%;
+  color: #e0e0e0;
+}
+
+.join-meeting h2, .schedule-meeting h2, .create-meeting h2 {
+  margin-bottom: 1.5rem;
+  color: #f0f0f0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.7rem;
+  font-weight: 600;
+  color: #e0e0e0;
+  font-size: 1rem;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid #2d3f61;
+  border-radius: 8px;
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  background-color: #253755;
+  color: #f0f0f0;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #4d6a9e;
+  box-shadow: 0 0 0 3px rgba(34, 51, 92, 0.3);
+}
+
+.form-group input::placeholder {
+  color: #a0a0a0;
+}
+
+button {
+  padding: 14px 28px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, #22335c 0%, #1a2849 100%);
+  color: white;
+}
+
+button:hover {
+  background: linear-gradient(135deg, #2a3f70 0%, #1f3159 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(34, 51, 92, 0.4);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* 登录表单样式 */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding: 2rem;
+  background: #0d1321;
+  min-height: 100vh;
+}
+
+.login-form h2 {
+  margin-bottom: 2rem;
+  color: #f0f0f0;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-top: 0;
+  text-align: center;
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.login-form h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #22335c, #3a5080);
+  border-radius: 3px;
+}
+
+.login-form form {
+  background: #1d2d44;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+  margin: 20px auto;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(34, 51, 92, 0.3);
+}
+
+.login-form .form-group {
+  margin-bottom: 24px;
+  width: 100%;
+  text-align: left;
+}
+
+.login-form .form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #e0e0e0;
+  font-size: 15px;
+}
+
+.login-form .form-group input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid #2d3f61;
+  border-radius: 8px;
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  background-color: #253755;
+  color: #f0f0f0;
+}
+
+.login-form .form-group input:focus {
+  outline: none;
+  border-color: #4d6a9e;
+  box-shadow: 0 0 0 3px rgba(34, 51, 92, 0.3);
+}
+
+.login-form .form-group input::placeholder {
+  color: #a0a0a0;
+}
+
+.login-form button {
+  padding: 14px 28px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, #22335c 0%, #1a2849 100%);
+  color: white;
+  margin-top: 1rem;
+}
+
+.login-form button:hover {
+  background: linear-gradient(135deg, #2a3f70 0%, #1f3159 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(34, 51, 92, 0.4);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .shouye-content {
+    flex-direction: column;
+  }
+  
+  .shouye-sidebar {
+    width: 100%;
+    padding: 1rem 0;
+  }
+  
+  .shouye-sidebar ul {
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .shouye-sidebar li {
+    padding: 1rem;
+    text-align: center;
+    border-left: none;
+    border-bottom: 4px solid transparent;
+  }
+  
+  .shouye-sidebar li.active {
+    border-left: none;
+    border-bottom: 4px solid #64b5f6;
+  }
+  
+  .shouye-main {
+    padding: 0;
+  }
+  
+  .join-meeting, .schedule-meeting, .create-meeting {
+    padding: 1.5rem;
+  }
+  
+  .shouye-header {
+    padding: 1rem;
+  }
+  
+  .user-info {
+    gap: 8px;
+  }
+  
+  .username {
+    font-size: 1rem;
+  }
+  
+  .user-avatar {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .login-form {
+    min-height: 100vh;
+    padding: 15px;
+  }
+  
+  .login-form form {
+    padding: 30px 20px;
+    margin: 15px auto;
+  }
+  
+  .join-meeting h2, .schedule-meeting h2, .create-meeting h2 {
+    text-align: left;
+  }
+}
+
+/* 用户菜单弹窗样式 */
+.user-menu {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  width: 320px;
+  background: #1d2d44;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+  border: 1px solid #2d3f61;
+  overflow: hidden;
+  color: #e0e0e0;
+}
+
+.user-menu-header {
+  background: linear-gradient(135deg, #0d1321 0%, #1b263b 100%);
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.user-menu-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 15px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+.user-menu-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.user-menu-info {
+  flex: 1;
+}
+
+.user-menu-name {
+  font-weight: 600;
+  color: white;
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+}
+
+.user-menu-id {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.user-menu-list {
+  list-style: none;
+  padding: 0.5rem 0;
+  margin: 0;
+}
+
+.user-menu-item {
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  border-left: 3px solid transparent;
+  color: #e0e0e0;
+}
+
+.user-menu-item:hover {
+  background-color: #253755;
+  border-left: 3px solid #64b5f6;
+}
+
+.user-menu-item span {
+  font-size: 1rem;
+  color: #e0e0e0;
+  flex: 1;
+}
+
+.user-menu-item .icon-settings,
+.user-menu-item .icon-profile,
+.user-menu-item .icon-security,
+.user-menu-item .icon-meeting,
+.user-menu-item .icon-help,
+.user-menu-item .icon-about,
+.user-menu-item .icon-logout {
+  margin-right: 15px;
+  font-size: 1.3rem;
+  width: 24px;
+  text-align: center;
+  color: #64b5f6;
+}
+
+.logout-item {
+  border-top: 1px solid #2d3f61;
+  margin-top: 8px;
+  padding-top: 1rem;
+}
+
+.logout-item span {
+  color: #e74c3c !important;
+}
+
+.logout-item .icon-logout {
+  color: #e74c3c !important;
+}
+
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 设置面板样式 */
+.settings-panel {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  width: 380px;
+  background: #1d2d44;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  animation: slideIn 0.3s ease;
+  border: 1px solid #2d3f61;
+  overflow: hidden;
+  color: #e0e0e0;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.settings-header {
+  background: linear-gradient(135deg, #0d1321 0%, #1b263b 100%);
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  color: white;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  margin-right: 12px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: white;
+  display: flex;
+  align-items: center;
+}
+
+.back-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.settings-header h3 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.settings-content {
+  max-height: 450px;
+  overflow-y: auto;
+}
+
+.settings-section {
+  padding: 1.2rem 1.5rem;
+  border-bottom: 1px solid #2d3f61;
+}
+
+.settings-section:last-child {
+  border-bottom: none;
+}
+
+.settings-section h4 {
+  margin: 0 0 1.2rem 0;
+  font-size: 1.1rem;
+  color: #f0f0f0;
+  font-weight: 600;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #2d3f61;
+}
+
+.setting-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.2rem;
+  padding: 0.5rem 0;
+}
+
+.setting-item:last-child {
+  margin-bottom: 0;
+}
+
+.setting-item span {
+  font-size: 1rem;
+  color: #e0e0e0;
+}
+
+.setting-item select {
+  padding: 0.6rem 1rem;
+  border: 1px solid #2d3f61;
+  border-radius: 6px;
+  background: #253755;
+  font-size: 0.95rem;
+  min-width: 120px;
+  cursor: pointer;
+  color: #f0f0f0;
+}
+
+.setting-item select:focus {
+  outline: none;
+  border-color: #4d6a9e;
+  box-shadow: 0 0 0 2px rgba(34, 51, 92, 0.2);
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #2d3f61;
+  transition: .4s;
+  border-radius: 26px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background-color: #f0f0f0;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #64b5f6;
+}
+
+input:checked + .slider:before {
+  transform: translateX(24px);
+}
+
+input:checked + .slider:before {
+  background-color: white;
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+  .user-menu, .settings-panel {
+    position: fixed;
+    top: auto;
+    bottom: 20px;
+    left: 15px;
+    right: 15px;
+    width: auto;
+  }
+  
+  .settings-panel {
+    width: auto;
+  }
+  
+  .settings-content {
+    max-height: 350px;
+  }
+  
+  .user-menu {
+    top: 70px;
+    left: 15px;
+    right: 15px;
+  }
+}
+
+/* src/Shouye/Shouye.css */
+
+/* ... 保留原有CSS代码 ... */
+
+/* 新增快速会议样式 */
+.quick-meeting, .share-screen {
+  background: #1d2d44;
+  border-radius: 0;
+  padding: 2rem;
+  box-shadow: none;
+  max-width: none;
+  margin: 0;
+  min-height: 100%;
+  color: #e0e0e0;
+}
+
+.quick-meeting h2, .share-screen h2 {
+  margin-bottom: 1.5rem;
+  color: #f0f0f0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.quick-meeting-content, .share-screen-content {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.quick-meeting-content p, .share-screen-content p {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  color: #c0c0c0;
+}
+
+.meeting-info {
+  background: #253755;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-top: 2rem;
+  text-align: left;
+}
+
+.meeting-info p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+}
+
+.share-instructions {
+  background: #253755;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-top: 2rem;
+  text-align: left;
+}
+
+.share-instructions h3 {
+  margin-top: 0;
+  color: #f0f0f0;
+}
+
+.share-instructions ol {
+  padding-left: 1.5rem;
+}
+
+.share-instructions li {
+  margin-bottom: 0.8rem;
+  line-height: 1.5;
+}
+
+/* 响应式设计中的新增部分 */
+@media (max-width: 768px) {
+  /* ... 保留原有的响应式代码 ... */
+  
+  .quick-meeting-content, .share-screen-content {
+    padding: 0 1rem;
+  }
+  
+  .meeting-info, .share-instructions {
+    padding: 1rem;
+  }
+}
+
+/* 主页按钮样式 */
+.home-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 2rem;
+  color: #e0e0e0;
+}
+
+.home-page h2 {
+  margin-bottom: 3rem;
+  font-size: 1.8rem;
+  color: #f0f0f0;
+  text-align: center;
+}
+
+.function-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  max-width: 600px;
+  width: 100%;
+}
+
+.function-button {
+  background: #1d2d44;
+  border-radius: 12px;
+  padding: 2rem 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border: 1px solid #2d3f61;
+}
+
+.function-button:hover {
+  background: #253755;
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.button-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.button-text {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #f0f0f0;
+}
+
+/* 模态框样式 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 1rem;
+}
+
+.modal-content {
+  background: #1d2d44;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  border: 1px solid #2d3f61;
+  animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid #2d3f61;
+}
+
+.modal-header h2 {
+  margin: 0;
+  color: #f0f0f0;
+  font-size: 1.5rem;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: #a0a0a0;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.modal-close:hover {
+  background-color: #253755;
+  color: #f0f0f0;
+}
+
+.modal-body {
+  padding: 1.5rem;
+}
+
+.modal-body form {
+  margin: 0;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .function-buttons {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    width: 90%;
+  }
+  
+  .function-button {
+    padding: 1.5rem 1rem;
+  }
+  
+  .button-icon {
+    font-size: 2rem;
+  }
+  
+  .home-page h2 {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .modal-content {
+    margin: 1rem;
+  }
+  
+  .modal-header,
+  .modal-body {
+    padding: 1.2rem;
+  }
+}
+
+/* 在 Shouye.css 文件末尾添加以下样式 */
+
+.user-menu-avatar {
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.2s ease;
+}
+
+.user-menu-avatar:hover {
+  transform: scale(1.05);
+}
+
+.user-menu-avatar::after {
+  content: "📷";
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.user-menu-avatar:hover::after {
+  opacity: 1;
+}

@@ -1,0 +1,244 @@
+/* FaceLogin 页面专用样式 */
+.login-page {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(135deg, #0d1321 0%, #1b263b 100%);
+  min-height: 100vh;
+  color: #e0e0e0;
+  line-height: 1.6;
+}
+
+/* 确保所有子元素都使用border-box */
+.login-page *,
+.login-page *::before,
+.login-page *::after {
+  box-sizing: border-box;
+}
+
+/* 容器样式 */
+.login-page .container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/* 表单容器样式 */
+.login-page .form-container {
+  background: #1d2d44;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+  margin: 20px auto;
+  border: 1px solid rgba(34, 51, 92, 0.3);
+}
+
+.login-page .form-container:hover {
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
+}
+
+.login-page .form-title {
+  margin: 0 0 30px;
+  color: #f0f0f0;
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.login-page .form-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #22335c, #3a5080);
+  border-radius: 3px;
+}
+
+/* 内容区域 */
+.login-page .content {
+  margin: 20px 0;
+}
+
+/* 消息提示 */
+.login-page .message-info {
+  padding: 15px;
+  margin: 15px 0;
+  border-radius: 8px;
+  background-color: #1a2d4d;
+  color: #64b5f6;
+  text-align: center;
+}
+
+.login-page .message-info p {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* 视频容器 */
+.login-page .video-container {
+  margin: 25px 0;
+}
+
+.login-page .video-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.login-page .video-element {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  display: block;
+}
+
+.login-page .canvas-element {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  border-radius: 8px;
+}
+
+/* 按钮组 */
+.login-page .button-group {
+  margin: 30px 0;
+}
+
+/* 按钮样式 */
+.login-page .btn {
+  padding: 14px 28px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-width: 120px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.login-page .btn-primary {
+  background: linear-gradient(135deg, #22335c 0%, #1a2849 100%);
+  color: white;
+  width: 100%;
+}
+
+.login-page .btn-primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #2a3f70 0%, #1f3159 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(34, 51, 92, 0.4);
+}
+
+.login-page .btn:disabled {
+  background-color: #4a5a75;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  opacity: 0.7;
+}
+
+/* 链接样式 */
+.login-page .link-button {
+  background: none;
+  border: none;
+  color: #64b5f6;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 15px;
+  padding: 6px 4px;
+  font-weight: 500;
+  display: inline-block;
+  transition: color 0.3s ease;
+}
+
+.login-page .link-button:hover {
+  color: #90caf9;
+  text-decoration: underline;
+}
+
+.login-page .link-button:focus {
+  outline: 2px dashed #64b5f6;
+  outline-offset: 2px;
+}
+
+/* 表单页脚 */
+.login-page .form-footer {
+  margin-top: 35px;
+  padding-top: 25px;
+  border-top: 1px solid #2d3f61;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .login-page .container {
+    padding: 15px;
+  }
+  
+  .login-page .form-container {
+    padding: 30px 20px;
+    margin: 15px auto;
+  }
+  
+  .login-page .form-title {
+    font-size: 24px;
+    margin-bottom: 25px;
+  }
+  
+  .login-page .btn {
+    width: 100%;
+    padding: 16px;
+  }
+  
+  .login-page .form-footer {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-page {
+    font-size: 15px;
+  }
+  
+  .login-page .form-container {
+    padding: 25px 15px;
+  }
+  
+  .login-page .form-title {
+    font-size: 22px;
+  }
+  
+  .login-page .btn {
+    padding: 14px;
+  }
+  
+  .login-page .message-info {
+    padding: 12px;
+  }
+  
+  .login-page .message-info p {
+    font-size: 14px;
+  }
+}

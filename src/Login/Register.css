@@ -1,0 +1,295 @@
+/* Register 页面专用样式 */
+.register-page {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(135deg, #0d1321 0%, #1b263b 100%);
+  min-height: 100vh;
+  color: #e0e0e0;
+  line-height: 1.6;
+  -ms-overflow-style: none;  /* IE 和 Edge */
+  scrollbar-width: none;  /* Firefox */
+  max-height: 100vh;
+  overflow-y: auto;
+}
+
+/* 确保所有子元素都使用border-box */
+.register-page *,
+.register-page *::before,
+.register-page *::after {
+  box-sizing: border-box;
+}
+
+/* 容器样式 */
+.register-page .container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* 表单容器样式 */
+.register-page .form-container {
+  background: #1d2d44;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+  margin: 20px auto;
+  border: 1px solid rgba(34, 51, 92, 0.3);
+}
+
+.register-page .form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.register-page .form-title {
+  margin: 0 0 30px;
+  color: #f0f0f0;
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.register-page .form-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #22335c, #3a5080);
+  border-radius: 3px;
+}
+
+/* 输入框组样式 */
+.register-page .form-group {
+  margin-bottom: 24px;
+  width: 100%;
+  text-align: left;
+}
+
+.register-page .form-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #e0e0e0;
+  font-size: 15px;
+}
+
+.register-page .form-input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid #2d3f61;
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: #253755;
+  color: #f0f0f0;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.register-page .form-input:focus {
+  outline: none;
+  border-color: #4d6a9e;
+  box-shadow: 0 0 0 3px rgba(34, 51, 92, 0.3);
+}
+
+.register-page .form-input::placeholder {
+  color: #a0a0a0;
+}
+
+/* 验证码输入组 */
+.register-page .verification-group {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.register-page .verification-btn {
+  padding: 14px 18px;
+  white-space: nowrap;
+  min-width: 120px;
+}
+
+/* 按钮样式 */
+.register-page .btn {
+  padding: 14px 28px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-width: 120px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.register-page .btn-primary {
+  background: linear-gradient(135deg, #22335c 0%, #1a2849 100%);
+  color: white;
+  width: 100%;
+}
+
+.register-page .btn-primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #2a3f70 0%, #1f3159 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(34, 51, 92, 0.4);
+}
+
+.register-page .btn-secondary {
+  background: linear-gradient(135deg, #2d4675 0%, #1d2f50 100%);
+  color: white;
+}
+
+.register-page .btn-secondary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #365387 0%, #253b66 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(45, 70, 117, 0.4);
+}
+
+/* 倒计时按钮 */
+.register-page .countdown-button {
+  background-color: #4a5a75;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.register-page .countdown-button:hover {
+  background-color: #4a5a75;
+  transform: none;
+  box-shadow: none;
+}
+
+.register-page .btn:disabled {
+  background-color: #4a5a75;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  opacity: 0.7;
+}
+
+/* 消息提示样式 */
+.register-page .alert {
+  padding: 16px 20px;
+  margin: 20px 0;
+  border-radius: 8px;
+  text-align: left;
+  font-weight: 500;
+  border: 1px solid transparent;
+}
+
+.register-page .alert-info {
+  background-color: #1a2d4d;
+  color: #64b5f6;
+  border-color: #2a4570;
+}
+
+/* 链接样式 */
+.register-page .link-button {
+  background: none;
+  border: none;
+  color: #64b5f6;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 15px;
+  padding: 6px 4px;
+  font-weight: 500;
+  display: inline-block;
+  transition: color 0.3s ease;
+}
+
+.register-page .link-button:hover {
+  color: #90caf9;
+  text-decoration: underline;
+}
+
+.register-page .link-button:focus {
+  outline: 2px dashed #64b5f6;
+  outline-offset: 2px;
+}
+
+/* 表单页脚 */
+.register-page .form-footer {
+  margin-top: 35px;
+  padding-top: 25px;
+  border-top: 1px solid #2d3f61;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .register-page .container {
+    padding: 15px;
+  }
+  
+  .register-page .form-container {
+    padding: 30px 20px;
+    margin: 15px auto;
+  }
+  
+  .register-page .form-title {
+    font-size: 24px;
+    margin-bottom: 25px;
+  }
+  
+  .register-page .btn {
+    width: 100%;
+    padding: 16px;
+  }
+  
+  /* 移动端验证码组调整 */
+  .register-page .verification-group {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .register-page .verification-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .register-page {
+    font-size: 15px;
+  }
+  
+  .register-page .form-container {
+    padding: 25px 15px;
+  }
+  
+  .register-page .form-title {
+    font-size: 22px;
+  }
+  
+  .register-page .form-input {
+    padding: 12px 14px;
+  }
+  
+  .register-page .btn {
+    padding: 14px;
+  }
+}
+
+.register-page::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari, Opera */
+}
+
+.register-page .container::-webkit-scrollbar {
+  display: none;
+}

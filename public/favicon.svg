@@ -1,0 +1,16 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="64" height="64" rx="12" fill="url(#grad)"/>
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea"/>
+      <stop offset="100%" style="stop-color:#764ba2"/>
+    </linearGradient>
+  </defs>
+  <!-- 简化的耳机图标 -->
+  <path d="M 32 12 C 22 12 15 19 15 29 L 15 38" stroke="white" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <path d="M 32 12 C 42 12 49 19 49 29 L 49 38" stroke="white" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <rect x="10" y="35" width="8" height="14" rx="4" fill="white"/>
+  <rect x="46" y="35" width="8" height="14" rx="4" fill="white"/>
+  <path d="M 18 47 Q 18 52 22 54" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
+  <circle cx="22" cy="54" r="2" fill="white"/>
+</svg>
