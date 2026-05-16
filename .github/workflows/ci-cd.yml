@@ -1,0 +1,122 @@
+name: frontend-ci-cd
+
+on:
+  pull_request:
+    branches:
+      - main
+      - master
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test -- --watchAll=false --runInBand
+
+      - name: Build app
+        run: npm run build
+
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: ci
+    runs-on: ubuntu-latest
+    concurrency:
+      group: frontend-deploy-${{ github.ref }}
+      cancel-in-progress: true
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Validate deploy configuration
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REACT_APP_API_URL: ${{ vars.REACT_APP_API_URL }}
+          REACT_APP_WS_URL: ${{ vars.REACT_APP_WS_URL }}
+        run: |
+          test -n "$SSH_HOST" || (echo "Missing secret: SSH_HOST" && exit 1)
+          test -n "$SSH_USER" || (echo "Missing secret: SSH_USER" && exit 1)
+          test -n "$SSH_PRIVATE_KEY" || (echo "Missing secret: SSH_PRIVATE_KEY" && exit 1)
+          test -n "$REACT_APP_API_URL" || (echo "Missing variable: REACT_APP_API_URL" && exit 1)
+          test -n "$REACT_APP_WS_URL" || (echo "Missing variable: REACT_APP_WS_URL" && exit 1)
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build production app
+        env:
+          REACT_APP_API_URL: ${{ vars.REACT_APP_API_URL }}
+          REACT_APP_WS_URL: ${{ vars.REACT_APP_WS_URL }}
+          GENERATE_SOURCEMAP: "false"
+        run: npm run build
+
+      - name: Configure SSH
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          if [ -n "$SSH_PORT" ]; then
+            ssh-keyscan -p "$SSH_PORT" -H "$SSH_HOST" >> ~/.ssh/known_hosts
+          else
+            ssh-keyscan -H "$SSH_HOST" >> ~/.ssh/known_hosts
+          fi
+
+      - name: Upload static build
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          FRONTEND_DEPLOY_PATH: ${{ vars.FRONTEND_DEPLOY_PATH }}
+        run: |
+          SSH_PORT="${SSH_PORT:-22}"
+          DEPLOY_PATH="${FRONTEND_DEPLOY_PATH:-/var/www/soundlink/frontend}"
+
+          ssh -i ~/.ssh/id_ed25519 -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" "mkdir -p '$DEPLOY_PATH'"
+          rsync -az --delete \
+            -e "ssh -i ~/.ssh/id_ed25519 -p $SSH_PORT" \
+            build/ "$SSH_USER@$SSH_HOST:$DEPLOY_PATH/"
+
+      - name: Run optional post-deploy command
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          FRONTEND_POST_DEPLOY_CMD: ${{ vars.FRONTEND_POST_DEPLOY_CMD }}
+        run: |
+          if [ -z "$FRONTEND_POST_DEPLOY_CMD" ]; then
+            exit 0
+          fi
+
+          SSH_PORT="${SSH_PORT:-22}"
+          ssh -i ~/.ssh/id_ed25519 -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" "$FRONTEND_POST_DEPLOY_CMD"
