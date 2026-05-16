@@ -1,6 +1,6 @@
 // src/config/api.ts
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080/api';
-const WS_BASE_URL = process.env.REACT_APP_WS_URL || 'ws://localhost:8080/ws';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:6060/api';
+const WS_BASE_URL = process.env.REACT_APP_WS_URL || 'ws://localhost:6060/ws';
 
 export const API_ENDPOINTS = {
   // 认证接口
