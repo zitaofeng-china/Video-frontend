@@ -51,7 +51,7 @@ const Login = () => {
         <div className="form-container">
           {/* Logo 和品牌名称 */}
           <div className="brand-header">
-            <img src="/logo.svg" alt="SoundLink Logo" className="brand-logo" />
+            <img src="favicon.svg" alt="SoundLink Logo" className="brand-logo" />
             <h1 className="brand-name">SoundLink</h1>
             <p className="brand-tagline">智能视频通话平台</p>
           </div>

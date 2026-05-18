@@ -1,4 +1,4 @@
-// src/ViedeoChat/VideoChat.tsx
+﻿// src/ViedeoChat/VideoChat.tsx
 import React, { useEffect, useLayoutEffect, useRef, useCallback, useMemo } from "react";
 import './VideoChat.css';
 import ConnectionStatusBar from './components/ConnectionStatusBar';
@@ -128,7 +128,7 @@ const { state, setState, addLog, updateRemoteUsers, updateStats } = useVideoChat
 
   const startLocal = useCallback(async () => {
     try {
-      addLog("Video chat event");
+      addLog('开始获取本地媒体流');
       
       const { stream, type, error } = await getMediaWithFallback();
       
@@ -249,7 +249,7 @@ const { state, setState, addLog, updateRemoteUsers, updateStats } = useVideoChat
 
   const handleIceCandidate = useCallback((e: RTCPeerConnectionIceEvent, remoteUserId: string) => {
     if (e.candidate) {
-      addLog("Video chat event");
+      addLog(`收到 ICE 候选并发送给 ${remoteUserId}`);
       if (e.candidate.type === 'relay') {
         addLog("Using TURN relay");
       }
@@ -260,30 +260,30 @@ const { state, setState, addLog, updateRemoteUsers, updateStats } = useVideoChat
         candidate: e.candidate,
       });
     } else {
-      addLog("Video chat event");
+      addLog(`与 ${remoteUserId} 的 ICE 候选收集已完成`);
     }
   }, [addLog, sendMessage]);
 
   const handleIceConnectionStateChange = useCallback((pc: RTCPeerConnection, remoteUserId: string) => {
     const currentState = pc.iceConnectionState;
     setState(prev => ({ ...prev, iceState: currentState }));
-    addLog("Video chat event");
+    addLog(`与 ${remoteUserId} 的 ICE 连接状态变更为 ${currentState}`);
 
     switch (currentState) {
       case "connected":
-        addLog("Video chat event");
+        addLog(`与 ${remoteUserId} 的 WebRTC 连接已建立（connected）`);
         setState(prev => ({ ...prev, connectionStatus: "WebRTC connected" }));
         break;
       case "failed":
-        addLog("Video chat event");
-        setState(prev => ({ ...prev, connectionStatus: "Connection update" }));
+        addLog(`与 ${remoteUserId} 的 ICE 连接失败（failed）`);
+        setState(prev => ({ ...prev, connectionStatus: 'WebRTC 连接失败' }));
         break;
       case "disconnected":
-        addLog("Video chat event");
-        setState(prev => ({ ...prev, connectionStatus: "Connection update" }));
+        addLog(`与 ${remoteUserId} 的 ICE 连接已断开（disconnected）`);
+        setState(prev => ({ ...prev, connectionStatus: 'WebRTC 连接已断开' }));
         break;
       case "checking":
-        setState(prev => ({ ...prev, connectionStatus: "Connection update" }));
+        setState(prev => ({ ...prev, connectionStatus: 'WebRTC 连接检测中' }));
         break;
     }
   }, [addLog, setState]);
@@ -293,7 +293,7 @@ const { state, setState, addLog, updateRemoteUsers, updateStats } = useVideoChat
     setState(prev => ({ 
       ...prev, 
       wsConnected: true, 
-      connectionStatus: "Connection update"
+      connectionStatus: 'WebSocket 信令通道已建立'
     }));
     setTimeout(() => {
       sendMessageRef.current?.({ type: "request-room-state" });
@@ -363,7 +363,7 @@ const { state, setState, addLog, updateRemoteUsers, updateStats } = useVideoChat
       try {
         await pc.addIceCandidate(new RTCIceCandidate(candidate));
       } catch (err) {
-        addLog("Video chat event");
+        addLog(`缓存 ICE 候选添加失败（${remoteUserId}）：${err instanceof Error ? err.message : String(err)}`);
       }
     }
   }, [addLog, pcRefs]);
@@ -402,7 +402,7 @@ const { state, setState, addLog, updateRemoteUsers, updateStats } = useVideoChat
     });
     
     if (success) {
-      addLog("Video chat event");
+      addLog(`已为 ${remoteUserId} 更新自适应编码参数（${currentBitrate} bps）`);
     }
   }, [addLog, updateEncodingParameters]);
 
@@ -467,7 +467,7 @@ const { state, setState, addLog, updateRemoteUsers, updateStats } = useVideoChat
     }
     
     if (Math.floor(now / 1000) % 10 === 0) {
-      addLog("Video chat event");
+      addLog(`连接统计：↓${totalBytesReceived}B ↑${totalBytesSent}B 丢包=${totalPacketsLost} 码率=${currentBitrate}bps`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [addLog, updateStats, updateAdaptiveEncoding]); // Peer connections are read from refs inside the interval.
@@ -595,7 +595,7 @@ const { state, setState, addLog, updateRemoteUsers, updateStats } = useVideoChat
 
   const ensurePeerConnectionWithLocalTracks = useCallback(async (remoteUserId: string) => {
     if (!localStreamRef.current) {
-      addLog("Video chat event");
+      addLog(`本地媒体流未就绪，先启动本地流后再建立与 ${remoteUserId} 的连接`);
       await startLocal();
     }
 
@@ -668,7 +668,7 @@ const { state, setState, addLog, updateRemoteUsers, updateStats } = useVideoChat
           alert("Room link copied to clipboard");
         })
         .catch(err => {
-          addLog("Video chat event");
+          addLog('房间链接复制到剪贴板失败，请手动复制');
         });
     }
   }, [roomId, addLog]);
@@ -698,7 +698,7 @@ const { state, setState, addLog, updateRemoteUsers, updateStats } = useVideoChat
       newAdminId: newAdminId
     });
     
-    addLog("Video chat event");
+    addLog(`已向服务端发送管理员转让请求，新管理员：${newAdminId}`);
   }, [state.isAdmin, sendMessage, addLog]);
 
   const { muteAll, unmuteAll, disableAllVideo, enableAllVideo } = useAdminControls({
@@ -803,7 +803,7 @@ const { state, setState, addLog, updateRemoteUsers, updateStats } = useVideoChat
 
   const handleServerErrorMessage = useCallback(async (message: any) => {
     const errorMessage = message.message || 'Server returned an error';
-    addLog("Video chat event");
+    addLog(`收到服务端错误响应：${errorMessage}`);
     setState(prev => ({ ...prev, connectionStatus: errorMessage }));
 
     if (isScreenSharingRef.current && (message.code === 'SCREEN_SHARE_BUSY' || String(errorMessage).includes('screen'))) {
@@ -840,7 +840,7 @@ const { state, setState, addLog, updateRemoteUsers, updateStats } = useVideoChat
   const createAndSendOffer = useCallback(async (remoteUserId: string) => {
     const pc = pcRefs.current?.get(remoteUserId);
     if (!pc) {
-      addLog("Video chat event");
+      addLog(`无法为 ${remoteUserId} 创建 Offer：PeerConnection 不存在`);
       return;
     }
     
@@ -855,7 +855,7 @@ const { state, setState, addLog, updateRemoteUsers, updateStats } = useVideoChat
         return;
       }
 
-      addLog("Video chat event");
+      addLog(`开始为 ${remoteUserId} 创建 Offer（signalingState=${pc.signalingState}）`);
       
       const offer = await pc.createOffer({
         offerToReceiveAudio: true,
@@ -863,14 +863,14 @@ const { state, setState, addLog, updateRemoteUsers, updateStats } = useVideoChat
       });
       
       await pc.setLocalDescription(offer);
-      addLog("Video chat event");
+      addLog(`已为 ${remoteUserId} 设置本地 SDP 描述（Offer）`);
       
       sendMessage({
         type: "offer",
         target: remoteUserId,
         sdp: offer
       });
-      addLog("Video chat event");
+      addLog(`Offer 已发送至 ${remoteUserId}`);
     } catch (err) {
       addLog(`Failed to create offer for ${remoteUserId}: ${getErrorMessage(err)}`);
     }
@@ -884,7 +884,7 @@ const { state, setState, addLog, updateRemoteUsers, updateStats } = useVideoChat
   useEffect(() => {
     setConnectionCallbacks(
       async (remoteUserId: string) => {
-        addLog("Video chat event");
+        addLog(`活跃发言者检测到 ${remoteUserId} 连接，准备发起 Offer`);
         if (!pcRefs.current.has(remoteUserId)) {
           const userInRoom = state.remoteUsers.some(u => u.userId === remoteUserId);
           if (userInRoom && createAndSendOfferRef.current) {
@@ -896,7 +896,7 @@ const { state, setState, addLog, updateRemoteUsers, updateStats } = useVideoChat
         }
       },
       (remoteUserId: string) => {
-        addLog("Video chat event");
+        addLog(`活跃发言者监控：${remoteUserId} 已断开连接`);
       }
     );
   }, [setConnectionCallbacks, addLog, pcRefs, state.remoteUsers, ensurePeerConnectionWithLocalTracks, shouldInitiateOffer]);
@@ -904,7 +904,7 @@ const { state, setState, addLog, updateRemoteUsers, updateStats } = useVideoChat
   useEffect(() => {
     const interval = setInterval(() => {
       if (activeSpeakers.length > 0) {
-        addLog("Video chat event");
+        addLog(`当前活跃发言者（${activeSpeakers.length}）：${activeSpeakers.join(', ')}`);
       }
     }, 10000);
     return () => clearInterval(interval);
@@ -932,14 +932,14 @@ const { state, setState, addLog, updateRemoteUsers, updateStats } = useVideoChat
         await createAndSendOfferRef.current?.(remoteUserId);
       }).catch((error) => {
         initiatedOffersRef.current.delete(remoteUserId);
-        addLog("Video chat event");
+        addLog(`为 ${remoteUserId} 建立连接锁失败，已撤销 offer 发起标记`);
       });
     });
   }, [addLog, ensurePeerConnectionWithLocalTracks, pcRefs, runWithConnectionLock, shouldInitiateOffer, state.remoteUsers, state.wsConnected]);
 
   const handleUserJoined = useCallback(async (remoteUserId: string, isAdmin: boolean = false, adminId: string | null = null) => {
-    addLog("Video chat event");
-    setState(prev => ({ ...prev, connectionStatus: "Connection update" }));
+    addLog(`远端用户 ${remoteUserId} 加入房间`);
+    setState(prev => ({ ...prev, connectionStatus: `用户 ${remoteUserId} 加入，正在建立连接` }));
 
     if (adminId) {
       setState(prev => ({
@@ -950,12 +950,12 @@ const { state, setState, addLog, updateRemoteUsers, updateStats } = useVideoChat
     }
 
     if (!localStreamRef.current) {
-      addLog("Video chat event");
+      addLog(`用户 ${remoteUserId} 加入，本地流未就绪，正在启动本地媒体`);
       await startLocal();
     }
 
     if (pcRefs.current?.has(remoteUserId)) {
-      addLog("Video chat event");
+      addLog(`用户 ${remoteUserId} 加入，PeerConnection 已存在，仅更新用户列表`);
       updateRemoteUsers(prev => {
         if (!prev.some(user => user.userId === remoteUserId)) {
           return [...prev, { userId: remoteUserId, stream: null, isAdmin }];
@@ -1011,7 +1011,7 @@ const { state, setState, addLog, updateRemoteUsers, updateStats } = useVideoChat
   }, [handleUserJoined]);
 
   const handleUserLeft = useCallback((remoteUserId: string) => {
-    addLog("Video chat event");
+    addLog(`远端用户 ${remoteUserId} 已离开房间，正在释放连接资源`);
     initiatedOffersRef.current.delete(remoteUserId);
 
     const pc = pcRefs.current?.get(remoteUserId);
@@ -1042,33 +1042,33 @@ const { state, setState, addLog, updateRemoteUsers, updateStats } = useVideoChat
   const createAndSendAnswer = useCallback(async (sender: string) => {
     const pc = pcRefs.current?.get(sender);
     if (!pc) {
-      addLog("Video chat event");
+      addLog(`无法为 ${sender} 创建 Answer：PeerConnection 不存在`);
       return;
     }
     
     try {
       const answer = await pc.createAnswer();
       await pc.setLocalDescription(answer);
-      addLog("Video chat event");
+      addLog(`已为 ${sender} 创建并设置本地 SDP 描述（Answer）`);
       
       sendMessage({
         type: "answer",
         target: sender,
         sdp: answer
       });
-      addLog("Video chat event");
+      addLog(`Answer 已发送至 ${sender}`);
     } catch (err) {
-      addLog("Video chat event");
+      addLog(`为 ${sender} 创建/发送 Answer 失败：${err instanceof Error ? err.message : String(err)}`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [addLog, sendMessage]);
 
   const handleOffer = useCallback(async (sender: string, sdp: RTCSessionDescriptionInit) => {
-    addLog("Video chat event");
-    setState(prev => ({ ...prev, connectionStatus: "Connection update" }));
+    addLog(`收到来自 ${sender} 的 Offer，开始协商`);
+    setState(prev => ({ ...prev, connectionStatus: `正在与 ${sender} 进行 WebRTC 协商` }));
 
     if (!localStreamRef.current) {
-      addLog("Video chat event");
+      addLog(`收到 ${sender} 的 Offer，本地流未就绪，先启动本地媒体`);
       await startLocal();
     }
 
@@ -1098,11 +1098,11 @@ const { state, setState, addLog, updateRemoteUsers, updateStats } = useVideoChat
     try {
       await pc.setRemoteDescription(new RTCSessionDescription(sdp));
       await flushPendingCandidates(sender);
-      addLog("Video chat event");
+      addLog(`已应用来自 ${sender} 的远端 SDP 描述（Offer），正在发送 Answer`);
 
       await createAndSendAnswer(sender);
     } catch (err) {
-      addLog("Video chat event");
+      addLog(`处理来自 ${sender} 的 Offer 失败：${err instanceof Error ? err.message : String(err)}`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [addLog, setState, startLocal, ensurePeerConnectionWithLocalTracks, updateRemoteUsers, createAndSendAnswer]);
@@ -1112,18 +1112,18 @@ const { state, setState, addLog, updateRemoteUsers, updateStats } = useVideoChat
   }, [handleOffer, runWithConnectionLock]);
 
   const handleAnswer = useCallback(async (sender: string, sdp: RTCSessionDescriptionInit) => {
-    addLog("Video chat event");
+    addLog(`收到来自 ${sender} 的 Answer，准备应用远端 SDP`);
     try {
       const pc = pcRefs.current?.get(sender);
       if (!pc) {
-        addLog("Video chat event");
+        addLog(`无法应用 ${sender} 的 Answer：PeerConnection 不存在`);
         return;
       }
       await pc.setRemoteDescription(new RTCSessionDescription(sdp));
       await flushPendingCandidates(sender);
-      addLog("Video chat event");
+      addLog(`已应用来自 ${sender} 的远端 SDP 描述（Answer）`);
     } catch (err) {
-      addLog("Video chat event");
+      addLog(`应用来自 ${sender} 的 Answer 失败：${err instanceof Error ? err.message : String(err)}`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [addLog]);
@@ -1134,25 +1134,25 @@ const { state, setState, addLog, updateRemoteUsers, updateStats } = useVideoChat
 
   const handleIceCandidateMsg = useCallback(async (sender: string, candidate: RTCIceCandidateInit) => {
     if (candidate) {
-      addLog("Video chat event");
+      addLog(`收到来自 ${sender} 的 ICE 候选`);
       const pc = pcRefs.current?.get(sender);
       if (pc) {
         if (!pc.remoteDescription) {
           const pending = pendingCandidatesRef.current.get(sender) || [];
           pending.push(candidate);
           pendingCandidatesRef.current.set(sender, pending);
-          addLog("Video chat event");
+          addLog(`来自 ${sender} 的 ICE 候选已暂存（remoteDescription 未就绪）`);
           return;
         }
 
         try {
           await pc.addIceCandidate(new RTCIceCandidate(candidate));
-          addLog("Video chat event");
+          addLog(`已添加来自 ${sender} 的 ICE 候选`);
         } catch (err) {
-          addLog("Video chat event");
+          addLog(`添加来自 ${sender} 的 ICE 候选失败：${err instanceof Error ? err.message : String(err)}`);
         }
       } else {
-        addLog("Video chat event");
+        addLog(`收到来自 ${sender} 的 ICE 候选，但 PeerConnection 不存在，已忽略`);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

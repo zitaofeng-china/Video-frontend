@@ -1,16 +1,17 @@
 // ICE服务器配置
 export const ICE_SERVERS: RTCConfiguration['iceServers'] = [
   { urls: "stun:stun.l.google.com:19302" },
-  { urls: "stun:stun1.l.google.com:19302" },
+  { urls: "stun:stun.qq.com:3478" },
+  { urls: "stun:124.223.41.13:3478" },
   {
-    urls: "turn:openrelay.metered.ca:80",
-    username: "openrelayproject",
-    credential: "openrelayproject"
+    urls: "turn:124.223.41.13:3478",
+    username: "videochat",
+    credential: "b2f2144f22226f76594df540818d349bc7a00d33a0bfc3c4fc058e381410edab"
   },
   {
-    urls: "turn:openrelay.metered.ca:443",
-    username: "openrelayproject",
-    credential: "openrelayproject"
+    urls: "turns:124.223.41.13:5349",
+    username: "videochat",
+    credential: "b2f2144f22226f76594df540818d349bc7a00d33a0bfc3c4fc058e381410edab"
   }
 ];
 
